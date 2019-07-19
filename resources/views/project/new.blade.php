@@ -5,13 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">New Project</div>
-
+                <div class="panel-heading "><h1 align="center">New Project</h1></div>
+ <br>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('create_project') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
+                        <div class="form-row{{ $errors->has('title') ? ' has-error' : '' }}">
                             <label for="title" class="col-md-4 control-label">Title</label>
 
                             <div class="col-md-6">
@@ -24,8 +24,8 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
+ <br>
+                        <div class="form-row{{ $errors->has('body') ? ' has-error' : '' }}">
                             <label for="body" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6">
@@ -37,9 +37,9 @@
                                 @endif
                             </div>
                         </div>
-
+<br>
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-3 offset-md-8">
                                 <button type="submit" class="btn btn-primary">
                                     Create
                                 </button>

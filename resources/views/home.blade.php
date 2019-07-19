@@ -16,7 +16,7 @@
                                 </a>
 
                 
-                                 <a href="{{ route('reported_bugs') }}" class="btn btn-primary">
+                                 <a href="{{ route('new_assignment') }}" class="btn btn-primary">
                                     Assign Project
                                 </a>
                  @endcan
@@ -24,13 +24,15 @@
                     @can('isQA') 
 
                 
-                                 <a href="{{ route('reported_bugs') }}" class="btn btn-primary">
+                                 <a href="{{ route('create_bug') }}" class="btn btn-primary">
                                     Add bug
                                 </a>
                     @endcan
                  @can('isDeveloper') 
-                 
-                                 <a href="{{ route('reported_bugs') }}" class="btn btn-primary">
+                                <a href="{{ route('assigned_project') }}" class="btn btn-primary">
+                                    Assigned projects
+                                </a>
+                                 <a href="{{ route('resolved_bug') }}" class="btn btn-primary">
                                     Ressolved  bugs
                                 </a>
                 
@@ -40,7 +42,7 @@
                  @endcan
                  @canany(['isQA', 'isDeveloper'])
                      
-                                 <a href="{{ route('reported_bugs') }}" class="btn btn-primary">
+                                 <a href="{{ route('show_bug') }}" class="btn btn-primary">
                                     Show bugs
                                 </a>
                  @endcanany

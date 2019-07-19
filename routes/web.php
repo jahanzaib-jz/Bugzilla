@@ -26,15 +26,22 @@ Auth::routes();
 
     Route::get('/project/new', 'ProjectController@create')
         ->name('new_project')
-        ->middleware('if:isManager');
+        ->middleware('if:isManager');	
 
         Route::post('/project/create', 'ProjectController@store')
         ->name('create_project')
         ->middleware('if:isManager');
 
-        Route::get('/project/assignment', 'ProjectController@assignProject')
+        Route::get('/project/newAssignment', 'ProjectController@newAssignment')
+        ->name('new_assignment')
+        ->middleware('if:isManager');
+        Route::post('/project/assignment', 'ProjectController@assignProject')
         ->name('assign_project')
         ->middleware('if:isManager');
+
+        Route::get('/project/assigned', 'ProjectController@assignedProject')
+        ->name('assigned_project')
+        ->middleware('if:isDeveloper');
 
         Route::get('/project/show', 'ProjectController@show')
         ->name('show_project')
@@ -48,9 +55,12 @@ Auth::routes();
         ->name('store_bug')
         ->middleware('if:isQA');
 
-        Route::get('/bug/show', 'BugController@show')
-        ->name('create_bug')
-        ->middleware('if:isQA','if:isDeveloper');
+        // Route::get('/bug/show', 'BugController@show')
+        // ->name('show_bug')
+        // ->middleware('if:isQA,if:isDeveloper');
+        Route::group(['if:isQA,if:isDeveloper'], function () {
+    	Route::get('/bug/show', 'BugController@show')->name('show_bug');
+			});
 
         Route::get('/bug/reported', 'BugController@reported')
         ->name('reported_bugs')
