@@ -14,7 +14,12 @@
                                   <th scope="col">#</th>
                                   <th scope="col">Title</th>
                                   <th scope="col">Descrption</th>
+                                  @can('isDeveloper')
                                   <th scope="col">Manager</th>
+                                  @endcan
+                                   @can('isManager')
+                                  <th scope="col">Developer</th>
+                                  @endcan
                                 </tr>
                               </thead>
                              <tbody>
@@ -26,8 +31,13 @@
                                   <th scope="row">{{$project->id}}</th>
                                   <td>{{$project->title}}</td>
                                   <td >{{$project->description}}</td>
-                                  
+                                    @can('isDeveloper')
                                   <td>{{$project->manager->name}}</td>
+                                  @endcan
+                                   @can('isManager')
+                                  <td>{{$project->manager->name}}</td>
+                                  @endcan
+                                  
                                 </tr>
                                 @endforeach
                                 

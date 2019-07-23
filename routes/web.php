@@ -23,8 +23,8 @@ Auth::routes();
 
  //    Route::get('/show/{id}', 'PostController@show')
  //        ->name('show_post');
-
-    Route::get('/project/new', 'ProjectController@create')
+		
+   		 Route::get('/project/new', 'ProjectController@create')
         ->name('new_project')
         ->middleware('if:isManager');	
 
@@ -39,9 +39,13 @@ Auth::routes();
         ->name('assign_project')
         ->middleware('if:isManager');
 
-        Route::get('/project/assigned', 'ProjectController@assignedProject')
-        ->name('assigned_project')
-        ->middleware('if:isDeveloper');
+        
+        
+        Route::group(['if:isManager,if:isDeveloper'], function () {
+		Route::get('/project/assigned', 'ProjectController@assignedProject')
+        ->name('assigned_project');
+			});
+
 
         Route::get('/project/show', 'ProjectController@show')
         ->name('show_project')
@@ -54,6 +58,10 @@ Auth::routes();
         Route::post('/bug/store', 'BugController@store')
         ->name('store_bug')
         ->middleware('if:isQA');
+
+        Route::get('get-developer-list', 'BugController@developerProjects')
+        ->middleware('if:isQA');
+
 
         // Route::get('/bug/show', 'BugController@show')
         // ->name('show_bug')

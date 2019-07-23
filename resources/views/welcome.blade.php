@@ -8,7 +8,10 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
+{{-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>   --}}
+{{-- <link rel="stylesheet" href="http://www.codermen.com/css/bootstrap.min.css">   {{--   --}}
+    {{-- <script src="http://www.codermen.com/js/jquery.js"></script> --}} --}}
+    
         <!-- Styles -->
         <style>
             html, body {

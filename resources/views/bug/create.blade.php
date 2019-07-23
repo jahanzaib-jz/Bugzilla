@@ -2,21 +2,34 @@
 
 @section('new project')
 <div class="container">
+        
+
+    {{-- <script src="http://www.codermen.com/js/jquery.js"></script> --}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+   
+
+    <script src="{{asset('/js/testing.js')}}"></script>
     <div class="row justify-content-center">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+                
                 <div class="panel-heading "><h1 align="center">New Bug</h1></div>
- <br>
+     {{ csrf_field() }}
+    <br>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('store_bug') }}" enctype="multipart/form-data">
-                        {{ csrf_field() }}
+                      
+                        
                          <div class="form-row{{ $errors->has('project') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label ">Project</label>
                     
                             <div class="col-md-6 ">
-                                <select id="project" type="text" class="form-control" name="project" value="Developer" required >
+                                <select id="project" type="text" class="form-control" name="project" required >
                                    
-                                     @foreach($projects as $project)
+                                     
+                                        
+                              @foreach($projects as $project)
                                         <option value="{{$project->id}}">{{$project->title}}</option>
                                     @endforeach
                                        
@@ -31,7 +44,27 @@
                             </div>
                         </div>
                         <br>
+                         
+                        <div class="form- row{{ $errors->has('developer') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label ">Developer</label>
 
+                            <div class="col-md-6 ">
+                                {{-- {!! Form::select('developer',[''=>'--- Select Country ---']+$developers,null,['class'=>'form-control']) !!}
+     --}}
+                                <select id="developer" type="text" class="form-control" name="developer" required >
+                                   
+                                        
+                                  
+                                </select>
+
+                                @if ($errors->has('developer'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('role') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <br>
 
                            <div class="form-row{{ $errors->has('deadline') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label ">Deadline</label>
@@ -91,8 +124,8 @@
                             <label for="name" class="col-md-4 control-label ">Type</label>
 
                             <div class="col-md-6 ">
-                                    <select id="type" type="text" class="form-control" name="type" value="select.. " required >
-                                    
+                                    <select id="type" type="text" class="form-control"   name="type"  required >
+                                        <option value=""> Select Bug type</option>
                                         <option value="feature" >Feature</option>
                                         <option value="bug">Bug</option>
                                         
@@ -109,22 +142,11 @@
                         <br>
                         
                          <div class="form- row{{ $errors->has('developer') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label ">Developer</label>
+                            <label for="name" class="col-md-4 control-label ">Status</label>
                            
                             <div class="col-md-6 ">
-                                <select id="status" type="text" class="form-control" name="status" value="Developer" required >
-                                    
-                                        <option value="new">New</option>
-                                        <option value="started">Started</option>
-                                    
-                                        
-                                                
-                                        <option value="completed">Completed</option>
+                                <select id="status" type="text" class="form-control" name="status" required>
                                        
-                                        <option value="resolved">Resolved</option>
-                                       
-                                        
-                                  
                                 </select>
 
                                 @if ($errors->has('status'))
@@ -135,26 +157,6 @@
                             </div>
                         </div>
                         <br>   
-                        <div class="form- row{{ $errors->has('developer') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label ">Developer</label>
-
-                            <div class="col-md-6 ">
-                                <select id="developer" type="text" class="form-control" name="developer" value="Developer" required >
-                                    @foreach($developers as $developer)
-                                        <option value="{{$developer->id}}">{{$developer->name}}</option>
-                                    @endforeach
-                                        
-                                  
-                                </select>
-
-                                @if ($errors->has('developer'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('role') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <br>
                         <div class="form-group">
                             <div class="col-md-3 offset-md-8">
                                 <button type="submit" class="btn btn-primary">
@@ -168,5 +170,6 @@
             </div>
         </div>
     </div>
+    
 </div>
 @endsection

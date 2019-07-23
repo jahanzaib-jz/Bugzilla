@@ -28,10 +28,16 @@
                                     Add bug
                                 </a>
                     @endcan
-                 @can('isDeveloper') 
-                                <a href="{{ route('assigned_project') }}" class="btn btn-primary">
+                    @canany(['isManager', 'isDeveloper'])
+                      <a href="{{ route('assigned_project') }}" class="btn btn-primary">
                                     Assigned projects
                                 </a>
+
+                    @endcanany
+
+
+                 @can('isDeveloper') 
+                                
                                  <a href="{{ route('resolved_bug') }}" class="btn btn-primary">
                                     Ressolved  bugs
                                 </a>

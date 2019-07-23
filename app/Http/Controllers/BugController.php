@@ -7,6 +7,7 @@ use App\Project;
 use App\User;
 use App\Bug;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class BugController extends Controller
 {
@@ -23,10 +24,10 @@ class BugController extends Controller
 
     public function create(){
     	
-        $developers=User::all()->where('type','developer');
+        // $developers=User::all()->where('type','developer');
         
         $projects=Project::all();
-        return view('bug.create',compact('developers','projects'));
+        return view('bug.create',compact('projects'));
     }
     public function store(Request $request){
         
@@ -61,14 +62,46 @@ class BugController extends Controller
     }
     public function show(){
         $bugs=Bug::all();
+        Session::flash('message', 'Record successfully deleted!');
+            Session::flash('alert-type', 'success');
         return view('bug.show',compact('bugs'));
     }
     public function resolved(){
-        $bugs=Bug::all()->where('status','resolved');
+        $bugs=Bug::all()->where('status','resolved')
+                        ->where('developer_id',Auth::id());
         return view('bug.show',compact('bugs'));
     }
     public function reported(){
-         $bugs=Bug::all()->where('status','started');
+         $bugs=Bug::all()
+         ->where('developer_id',Auth::id())
+         ->where('status','started');
+           
+      //       
+      //     ->where(function($q) {
+      //     $q->where('status','resolved')
+      //       ->orWhere('status','started');
+      //           })
+      // ->get();
         return view('bug.show',compact('bugs'));
+    }
+
+    public function developerProjects( Request $request){
+
+            // $developers =User::all() 
+            // ->pluck("name","id");
+        $developers = DB::table("users")
+            ->where("id",$request->project_id)
+            ->pluck("name","id");
+
+            return response()->json($developers);
+        
+
+     
+       
+    // if($request->ajax()){
+    //         $projects=User::find($developer)->Projects;
+    //         $data = view('ajax-select',compact('projects'))->render();
+    //         return response()->json(['options'=>$data]);
+    //     }
     }
 }

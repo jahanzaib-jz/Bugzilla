@@ -27,7 +27,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
+     
     /**
      * The attributes that should be cast to native types.
      *
@@ -36,7 +36,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+   
+    public function userprojects()
+    {
+        
+        return $this->belongsToMany('App\Project','assign__projects','developer_id');
+    }
+    public function developerProjects()
+    {
+        
+        return $this->belongsTo('App\Assign_Project','developer_id');
+    }
+        
         public function isManager()
+    
     {
    
             if($this->type=='manager'){

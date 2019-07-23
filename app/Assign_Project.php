@@ -18,6 +18,12 @@ class Assign_Project extends Model
     public function projects()
     {
     	// belongsTo(RelatedModel, foreignKey = projects_id, keyOnRelatedModel = id)
-    	return $this->belongsTo('App\Project','project_id');
+    	return $this->belongsTo('App\Project');
     }
+    /**
+     * Assign_Project belongs to  deve.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    
 }
