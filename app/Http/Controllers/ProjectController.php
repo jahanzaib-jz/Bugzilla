@@ -42,9 +42,10 @@ class ProjectController extends Controller
     }
 
      public function show(){
-    	$projects=Project::all();
+    	$projects=Project::latest()->paginate(5);
 
-    	return view('project.showprojects',compact('projects'));
+    	return view('project.showprojects',compact('projects'))
+        ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
 
@@ -122,4 +123,83 @@ class ProjectController extends Controller
         return view('project.assignedprojects',compact('projects'));
 
     }
+
+
+   
+    public function destroy($id)
+    
+    {  
+            $project = Project::find($id);
+            if(Auth::id()!=$project->manager_id){
+                return view('home');
+            } 
+            else{
+                $chkk=Assign_Project::where('project_id',$id)->first();
+
+                if($chkk['project_id']==$id){
+                return redirect()->route('show_project')
+                                ->with('success','This Project is assigned , cant be deleted');
+                } 
+                else{
+
+                
+                $project->delete();
+          
+                return redirect()->route('show_project')
+                                ->with('success','project deleted successfully');
+
+                    }
+                }
+
+    }
+    public function showProject($id){
+                    $project = Project::find($id);
+              
+
+                    
+                    
+              
+                    return view('project.show',compact('project'));
+
+                        
+                    
+
+                }
+                public function edit($id){
+                    $project = Project::find($id);
+                if(Auth::id()!=$project->manager_id){
+                    return view('home');
+                } 
+                else{
+
+                    
+                    
+              
+                    return view('project.edit',compact('project'));
+
+                        
+                    }
+
+    }
+
+      public function update(Request $request,$id){
+                    $project = Project::find($id);
+                        if(Auth::id()!=$project->manager_id){
+                            return view('home');
+                            } 
+                        else{
+                           $project->title= $request->input('title');
+                            $project->description=$request->input('description');
+                            $project->save();
+                        
+                    
+              
+                                return redirect()->route('show_project')
+                                    ->with('success','project Updated successfully');
+
+                        
+                    }
+
+                }
+
 }

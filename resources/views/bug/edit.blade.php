@@ -18,15 +18,16 @@
      {{ csrf_field() }}
     <br>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('store_bug') }}" enctype="multipart/form-data">
+                    <form class="form-horizontal" role="form" method="POST" 
+                    action="{{ route('bug.update',$bug->id)}}" enctype="multipart/form-data">
                       
                         
                          <div class="form-row{{ $errors->has('project') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label ">Project</label>
                     
                             <div class="col-md-6 ">
-                                 <select id="project" type="text" class="form-control" name="project" value="Developer" required >   
-                                     <option value="">Select Project</option>
+                                 <select id="project" type="text"  class="form-control" name="project" value="Developer" required >   
+                                     <option value="$bug->project->id">{{$bug->project->title}}</option>
                                         
                               @foreach($projects as $project)
                                         <option value="{{$project->id}}">{{$project->title}}</option>
@@ -51,8 +52,8 @@
                                 {{-- {!! Form::select('developer',[''=>'--- Select Country ---']+$developers,null,['class'=>'form-control']) !!}
      --}}
                                 <select id="developer" type="text" class="form-control" name="developer" required >
-                                   
-                                        
+                                  
+                                   <option value="$bug->developer->id">{{$bug->developer->name}}</option>     
                                   
                                 </select>
 
@@ -70,7 +71,7 @@
                     
                             <div class="col-md-6 ">
                                 
-                               <input id="deadline" type="date" class="form-control" name="deadline" value="{{ old('title') }}" required autofocus>
+                               <input id="deadline" type="date" class="form-control" name="deadline" value="{{ $bug->deadline}}" required autofocus>
                                 @if ($errors->has('deadline'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('deadline') }}</strong>
@@ -85,7 +86,7 @@
                             <label for="title" class="col-md-4 control-label">Title</label>
 
                             <div class="col-md-6">
-                                <input id="title" type="text" class="form-control" name="title" value="{{ old('title') }}" required autofocus>
+                                <input id="title" type="text" class="form-control" name="title" value="{{ $bug->title }}" required autofocus>
 
                                 @if ($errors->has('title'))
                                     <span class="help-block">
@@ -99,7 +100,7 @@
                             <label for="title" class="col-md-4 control-label">Image</label>
 
                             <div class="col-md-6">
-                                <input id="image" class="form-control" type="file" class="form-control" name="image" value="{{ old('image') }}" >
+                                <input id="image" class="form-control" type="file" class="form-control" name="image" value="{{ $bug->image }}" >
 
                                 
                             </div>
@@ -109,7 +110,7 @@
                             <label for="body" class="col-md-4 control-label">Description</label>
 
                             <div class="col-md-6"> 
-                                <textarea name="description" id="description" cols="30" rows="10" class="form-control" >{{ old('description') }}</textarea>
+                                <textarea name="description" id="description" cols="30" rows="10" class="form-control" >{{ $bug->description }}</textarea>
                                 @if ($errors->has('body'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
@@ -124,9 +125,12 @@
 
                             <div class="col-md-6 ">
                                     <select id="type" type="text" class="form-control"   name="type"  required >
-                                        <option value=""> Select Bug type</option>
+                                        <option value="{{$bug->type}}" >{{$bug->type}}</option>
+                                      @if($bug->type=='bug')
                                         <option value="Feature" >Feature</option>
+                                        @else
                                         <option value="Bug">Bug</option>
+                                        @endif
                                         
                                   
                                 </select>
@@ -140,12 +144,22 @@
                         </div>
                         <br>
                         
-                         <div class="form- row{{ $errors->has('developer') ? ' has-error' : '' }}">
+                         <div class="form- row{{ $errors->has('status') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label ">Status</label>
                            
                             <div class="col-md-6 ">
-                                <select id="status" type="text" class="form-control" name="status" required>
-                                       
+                                <select id="status" type="text" class="form-control" name="status" required >
+                                   <option value="{{$bug->status}}">{{$bug->status}}</option> 
+                                  
+                                   @if($bug->type=='Feature')
+                                        <option value="New">New</option>');
+                                        <option value="Started">Started</option> 
+                                        <option value="Completed" >Completed</option>
+                                        @else
+                                        <option value="New">New</option>');
+                                        <option value="Started">Started</option> 
+                                        <option value="Resolved">Resolved</option>
+                                        @endif 
                                 </select>
 
                                 @if ($errors->has('status'))

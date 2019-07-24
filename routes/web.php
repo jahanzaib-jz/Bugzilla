@@ -59,7 +59,7 @@ Auth::routes();
         ->name('store_bug')
         ->middleware('if:isQA');
 
-        Route::get('get-developer-list', 'BugController@developerProjects')
+        Route::get('/get-developer-list', 'BugController@developerProjects')
         ->middleware('if:isQA');
 
 
@@ -67,7 +67,7 @@ Auth::routes();
         // ->name('show_bug')
         // ->middleware('if:isQA,if:isDeveloper');
         Route::group(['if:isQA,if:isDeveloper'], function () {
-    	Route::get('/bug/show', 'BugController@show')->name('show_bug');
+    	Route::get('/bug/show', 'BugController@index')->name('show_bug');
 			});
 
         Route::get('/bug/reported', 'BugController@reported')
@@ -77,6 +77,41 @@ Auth::routes();
         Route::get('/bug/resolved', 'BugController@resolved')
         ->name('resolved_bug')
         ->middleware('if:isDeveloper');
+
+
+Route::delete('/delete/project/{id}', 'ProjectController@destroy')
+->name('project.destory')
+->middleware('if:isManager');
+
+Route::get('/edit/project/{id}', 'ProjectController@edit')
+->name('project.edit')
+->middleware('if:isManager');
+
+Route::get('/show/project/{id}','ProjectController@showProject')
+->name('project.show');
+
+Route::put('/update/project/{id}','ProjectController@update')
+->name('project.update')
+->middleware('if:isManager');
+
+
+Route::delete('/delete/bug/{id}', 'BugController@destroy')
+->name('bug.destory')
+->middleware('if:isQA');
+
+Route::get('/edit/bug/{id}', 'BugController@edit')
+->name('bug.edit')
+->middleware('if:isQA');
+
+Route::group(['if:isQA,if:isDeveloper'], function () {
+Route::get('/show/bug/{id}','BugController@show')
+->name('bug.show');
+});
+
+Route::put('/update/bug/{id}','BugController@update')
+->name('bug.update')
+->middleware('if:isQA');
+
 
 
 

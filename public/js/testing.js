@@ -8,11 +8,17 @@ $(document).ready(function() {
     if(projectID){
       $.ajax({
         type:"GET",
-        url:"{{url('get-developer-list')}}?project_id="+projectID,
         
+        url:"/get-developer-list",
+        data:{projectID:projectID},
+        async: true,
+        cache: false,
         success:function(res){   
+           console.log(res);
+           console.log(Object.keys(res).length);
+           window.a = res
            
-            if(res){
+            if(Object.keys(res).length>0){
             
           $("#developer").empty();
           $("#developer").append('<option>Select</option>');
@@ -23,7 +29,11 @@ $(document).ready(function() {
 
           }
           else{
+          
+          window.alert("sometext");
           $("#developer").empty();
+
+           
           }
         }
       });
@@ -35,18 +45,33 @@ $(document).ready(function() {
    $('#type').change(function(){
     $("#status").empty();
     $("#status").append('<option>Select</option>');
-    $("#status").append('<option value="new">New</option>');
-    $("#status").append('<option value="started">Started</option>');
+    $("#status").append('<option value="New">New</option>');
+    $("#status").append('<option value="Started">Started</option>');
     // $("#developer").append('<option>Select</option>');
     var type = $(this).val();
     if(type=='bug'){
-      $("#status").append('<option value="resolved">Resolved</option>');
+      $("#status").append('<option value="Resolved">Resolved</option>');
     }
     else{
-            $("#status").append('<option value="completed">Completed</option>');
+            $("#status").append('<option value="Completed">Completed</option>');
 
     }
   });
+
+  //     $('#status').click(function(){
+  //   $("#status").empty();
+  //   $("#status").append('<option value="New">New</option>');
+  //   $("#status").append('<option value="Started">Started</option>');
+  //   // $("#developer").append('<option>Select</option>');
+  //   var type = $(this).val();
+  //   if(type=='bug'){
+  //     $("#status").append('<option value="Resolved">Resolved</option>');
+  //   }
+  //   else{
+  //           $("#status").append('<option value="Completed">Completed</option>');
+
+  //   }
+  // });
 
 
 });
